@@ -275,7 +275,7 @@ function receivedMessage(event) {
 
       case 'test':
         sendTextMessage(senderID, "TEST");
-        //callParseServerCloudCode("hello",'{"msg":"fuck"}')
+        callParseServerCloudCode("hello",'{"msg":"fuck"}')
         break
 
       default:
@@ -745,8 +745,8 @@ function callParseServerCloudCode(methodName,requestMsg) {
 function callback(error, response, body) {
   console.log("response:"+JSON.stringify(response));
   if (!error && response.statusCode == 200) {
-    var info = JSON.parse(body);
-    console.log(info);
+    //var info = JSON.parse(body);
+    console.log(JSON.stringify(response));
   }else {
     console.error("Unable to send message. Error :"+error);
   }
