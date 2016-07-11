@@ -735,6 +735,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
+        'Accept' : '*/*',
         'X-Parse-Application-Id' : 'myAppId',
         'X-Parse-REST-API-Key': 'myRestKey'
     }
@@ -742,7 +743,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
   var req = https.request(options, function(res) {
     console.log('Status: ' + res.statusCode);
     console.log('Headers: ' + JSON.stringify(res.headers));
-    //res.setEncoding('utf8');
+    res.setEncoding('utf8');
     res.on('data', function (body) {
       console.log('Body: ' + body);
     });
