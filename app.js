@@ -746,7 +746,7 @@ function callback(error, response, body) {
   console.log("response:"+JSON.stringify(response));
   if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
-    console.log("reply:"+info);
+    console.log(info);
   }else {
     console.error("Unable to send message. Error :"+error);
   }
