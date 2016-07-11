@@ -736,6 +736,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     headers: {
         'Content-Type': 'application/json',
         'Accept' : '*/*',
+        'Accept-Encoding' : 'gzip, deflate',
         'X-Parse-Application-Id' : 'myAppId',
         'X-Parse-REST-API-Key': 'myRestKey'
     }
