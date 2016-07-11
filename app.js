@@ -275,7 +275,7 @@ function receivedMessage(event) {
 
       case 'test':
         sendTextMessage(senderID, "TEST");
-        callParseServerCloudCode("hello",'{"msg":"fuck"}')
+        //callParseServerCloudCode("hello",'{"msg":"fuck"}')
         break
 
       default:
@@ -753,7 +753,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     console.log('problem with request: ' + e.message);
   });
   // write data to request body
-  req.write({"msg":"ok"});
+  req.write(jsonObject);
   req.end();
 
 }
