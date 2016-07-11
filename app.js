@@ -732,9 +732,11 @@ function callParseServerCloudCode(methodName,requestMsg) {
 // prepare the header
   var postheaders = {
     'Content-Type' : 'application/json',
+    'X-Parse-Application-Id' : 'myAppId',
+    'X-Parse-REST-API-Key' : 'myRestKey'
   };
   var optionsPost = {
-    host : 'reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName, // here only the domain name
+    uri : 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName, // here only the domain name
     method : 'POST', // do GET
     headers : postheaders
   };
@@ -743,6 +745,8 @@ function callParseServerCloudCode(methodName,requestMsg) {
     console.log("statusCode: ", res.statusCode);
     // uncomment it for header details
     console.log("headers: ", res.headers);
+    console.log("headers: ", res.headers);
+
     res.on('data', function(d) {
         console.log('POST result:\n');
         process.stdout.write(d);
