@@ -730,8 +730,8 @@ function callParseServerCloudCode(methodName,requestMsg) {
   console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
   var jsonObject = JSON.stringify(requestMsg);
   var options = {
-    hostname: 'reply-msg-parse-server.herokuapp.com',
-    port: 443,
+    hostname: 'https://reply-msg-parse-server.herokuapp.com',
+    port: 13095,
     path: '/parse/functions/'+methodName,
     method: 'POST',
     headers: {
