@@ -735,30 +735,22 @@ function callParseServerCloudCode(methodName,requestMsg) {
     'X-Parse-Application-Id' : 'myAppId',
     'X-Parse-REST-API-Key' : 'myRestKey'
   };
-  var optionsPost = {
-    host : 'reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName, // here only the domain name
-    method : 'POST', // do GET
-    headers : postheaders
-  };
   // do the POST call
-  var reqPost = https.request(optionsPost, function(res) {
-    console.log("statusCode: ", res.statusCode);
-    // uncomment it for header details
-    console.log("headers: ", res.headers);
-    console.log("jsonObject: ", jsonObject);
-
-    res.on('data', function(d) {
-        console.log('POST result:\n');
-        process.stdout.write(d);
-        console.log('\n\nPOST completed');
-    });
-  });
-
-// write the json data
-  reqPost.write(jsonObject);
-  reqPost.end();
-  reqPost.on('error', function(e) {
-    console.error(e);
+  request({
+    uri: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
+    method: 'POST',
+    headers : postheaders,
+    body: jsonObject
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var result = body;
+      console.log("Successfully callParseServerCloudCode:"+result);
+    } else {
+      var errorMessage = response.error.message;
+      var errorCode = response.error.code;
+      console.error("Unable to send message. Error %d: %s",
+        errorCode, errorMessage);
+    }
   });
 }
 /*
