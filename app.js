@@ -739,7 +739,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     'X-Parse-REST-API-Key': 'myRestKey'
 //    'Accept-Language' : 'en-us'
   },
-  body: requestMsg
+  body: {"msg":"dsds"}
 };
 
 function callback(error, response, body) {
