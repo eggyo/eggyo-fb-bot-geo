@@ -16,8 +16,10 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request');
+  request = require('request'),
+  ParseCloud = require('parse-cloud-express');
 
+var Parse = ParseCloud.Parse;
 var app = express();
 
 app.set('port', process.env.PORT || 5000);
@@ -730,26 +732,12 @@ function callParseServerCloudCode(methodName,requestMsg) {
   console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
   var jsonObject = JSON.stringify(requestMsg);
 // prepare the header
-  var postheaders = {
-    'Content-Type' : 'application/json',
-    'X-Parse-Application-Id' : 'myAppId',
-    'X-Parse-REST-API-Key' : 'myRestKey'
-  };
-  // do the POST call
-  request({
-    uri: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
-    method: 'POST',
-    headers : postheaders,
-    data: jsonObject
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var result = body;
-      console.log("Successfully callParseServerCloudCode:"+result);
-    } else {
-      var errorMessage = response.error.message;
-      var errorCode = response.error.code;
-      console.error("Unable to send message. Error %d: %s",
-        errorCode, errorMessage);
+  Parse.Cloud.run(methodName, jsonObject, {
+    success: function(result) {
+      console.log("ParseServerCloudCode result :"+result);
+    },
+    error: function(error) {
+      console.error("ParseServerCloudCode error :"+error);
     }
   });
 }
