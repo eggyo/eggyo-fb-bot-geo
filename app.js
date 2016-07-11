@@ -747,9 +747,7 @@ function callback(error, response, body) {
     var info = JSON.parse(body);
     console.log(info);
   }else {
-    var errorMessage = response.error.message;
-    var errorCode = response.error.code;
-    console.error("Unable to send message. Error %d: %s",errorCode, errorMessage);
+    console.error("Unable to send message. Error :"+error);
   }
 }
 
