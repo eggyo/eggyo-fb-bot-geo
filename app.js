@@ -16,10 +16,8 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request'),
-  ParseCloud = require('parse-cloud-express');
+  request = require('request');
 
-var Parse = ParseCloud.Parse;
 var app = express();
 
 app.set('port', process.env.PORT || 5000);
@@ -731,15 +729,31 @@ function sendTypingOff(recipientId) {
 function callParseServerCloudCode(methodName,requestMsg) {
   console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
   var jsonObject = JSON.stringify(requestMsg);
-// prepare the header
-  Parse.Cloud.run(methodName, jsonObject, {
-    success: function(result) {
-      console.log("ParseServerCloudCode result :"+result);
-    },
-    error: function(error) {
-      console.error("ParseServerCloudCode error :"+error);
+  var options = {
+    hostname: 'reply-msg-parse-server.herokuapp.com',
+    port: 443,
+    path: '/parse/functions/'+methodName,
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Parse-Application-Id' : 'myAppId',
+        'X-Parse-REST-API-Key': 'myRestKey'
     }
+  };
+  var req = http.request(options, function(res) {
+    console.log('Status: ' + res.statusCode);
+    console.log('Headers: ' + JSON.stringify(res.headers));
+    res.setEncoding('utf8');
+    res.on('data', function (body) {
+      console.log('Body: ' + body);
+    });
   });
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
+  // write data to request body
+  req.write(jsonObject);
+  req.end();
 }
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
