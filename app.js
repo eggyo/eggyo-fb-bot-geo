@@ -741,7 +741,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     'X-Parse-REST-API-Key': 'myRestKey'
 //    'Accept-Language' : 'en-us'
   },
-  body: jsonObject
+  body: requestMsg
 };
 
 function callback(error, response, body) {
