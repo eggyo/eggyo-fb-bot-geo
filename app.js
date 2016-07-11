@@ -736,7 +736,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     'X-Parse-REST-API-Key' : 'myRestKey'
   };
   var optionsPost = {
-    uri : 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName, // here only the domain name
+    host : 'reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName, // here only the domain name
     method : 'POST', // do GET
     headers : postheaders
   };
