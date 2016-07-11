@@ -275,7 +275,7 @@ function receivedMessage(event) {
 
       case 'test':
         sendTextMessage(senderID, "TEST");
-        callParseServerCloudCode("hello",'{"msg":"fuck"}')
+        callParseServerCloudCode("testMsg",'{"msg":"fuck"}')
         break
 
       default:
@@ -727,9 +727,7 @@ function sendTypingOff(recipientId) {
  *
  */
 function callParseServerCloudCode(methodName,requestMsg) {
-  var jsonObject = JSON.stringify(requestMsg);
   console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+jsonObject);
-
   var options = {
   url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
   method: 'POST',
@@ -748,7 +746,7 @@ function callback(error, response, body) {
   console.log("response:"+JSON.stringify(response));
   if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
-    console.log(info);
+    console.log("reply:"+info.result);
   }else {
     console.error("Unable to send message. Error :"+error);
   }
