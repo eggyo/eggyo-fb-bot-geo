@@ -750,16 +750,13 @@ function callParseServerCloudCode(methodName,requestMsg) {
       console.log('Body: ' + body);
       str += body;
     });
-    res.on('end', function() {
-      console.log(str);
-    });
-  });
-  req.on('error', function(e) {
-    console.log('problem with request: ' + e.message);
   });
   // write data to request body
   req.write({"msg":"ok"});
   req.end();
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
 }
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
