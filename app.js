@@ -727,23 +727,25 @@ function sendTypingOff(recipientId) {
  *
  */
 function callParseServerCloudCode(methodName,requestMsg) {
-  console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
   var jsonObject = JSON.stringify(requestMsg);
+  console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+jsonObject);
+
   var options = {
   url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Accept' : '*/*',
-    'Accept-Encoding' : 'gzip, deflate',
+    //'Accept' : '*/*',
+    //'Accept-Encoding' : 'gzip, deflate',
     'X-Parse-Application-Id' : 'myAppId',
-    'X-Parse-REST-API-Key': 'myRestKey',
-    'Accept-Language' : 'en-us'
+    'X-Parse-REST-API-Key': 'myRestKey'
+//    'Accept-Language' : 'en-us'
   },
   body: jsonObject
 };
 
 function callback(error, response, body) {
+  console.log("code:"+response.statusCode);
   if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
     console.log(info);
