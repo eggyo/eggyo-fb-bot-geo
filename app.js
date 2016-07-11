@@ -738,12 +738,12 @@ function callParseServerCloudCode(methodName,requestMsg) {
     'X-Parse-Application-Id' : 'myAppId',
     'X-Parse-REST-API-Key': 'myRestKey'
 //    'Accept-Language' : 'en-us'
-  },
-  body: JSON.stringify(requestMsg)
+  }
+  //body: JSON.stringify(requestMsg)
 };
 
 function callback(error, response, body) {
-  console.log("response:"+JSON.stringify(response));
+  //console.log("response:"+JSON.stringify(response));
   if (!error && response.statusCode == 200) {
     //var info = JSON.parse(body);
     console.log(JSON.stringify(response));
