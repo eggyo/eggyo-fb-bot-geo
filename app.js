@@ -740,7 +740,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     uri: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
     method: 'POST',
     headers : postheaders,
-    json: jsonObject
+    data: jsonObject
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var result = body;
