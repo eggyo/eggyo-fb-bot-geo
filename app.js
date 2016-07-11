@@ -745,8 +745,13 @@ function callParseServerCloudCode(methodName,requestMsg) {
     console.log('Status: ' + res.statusCode);
     console.log('Headers: ' + JSON.stringify(res.headers));
     res.setEncoding('utf8');
+    var str = ''
     res.on('data', function (body) {
       console.log('Body: ' + body);
+      str += body;
+    });
+    res.on('end', function() {
+      console.log(str);
     });
   });
   req.on('error', function(e) {
