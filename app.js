@@ -275,7 +275,7 @@ function receivedMessage(event) {
 
       case 'test':
         sendTextMessage(senderID, "TEST");
-        callParseServerCloudCode("test",'{"msg":"fuck"}')
+        callParseServerCloudCode("testMsg",'{"msg":"fuck"}')
         break
 
       default:
