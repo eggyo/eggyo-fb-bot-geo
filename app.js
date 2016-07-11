@@ -745,7 +745,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
 };
 
 function callback(error, response, body) {
-  console.log("response:"+response);
+  console.log("response:"+JSON.stringify(response));
   if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
     console.log(info);
