@@ -275,7 +275,7 @@ function receivedMessage(event) {
 
       case 'test':
         sendTextMessage(senderID, "TEST");
-        callParseServerCloudCode("hello",'{"msg":"fuck"}')
+        //callParseServerCloudCode("hello",'{"msg":"fuck"}')
         break
 
       default:
@@ -739,7 +739,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     'X-Parse-REST-API-Key': 'myRestKey'
 //    'Accept-Language' : 'en-us'
   },
-  body: requestMsg
+  body: '{}'
 };
 
 function callback(error, response, body) {
