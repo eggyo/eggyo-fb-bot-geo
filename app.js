@@ -753,7 +753,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     console.log('problem with request: ' + e.message);
   });
   // write data to request body
-  req.write(jsonObject);
+  req.write({"msg":"ok"});
   req.end();
 }
 /*
