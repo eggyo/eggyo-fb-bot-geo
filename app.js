@@ -274,8 +274,9 @@ function receivedMessage(event) {
         break
 
       case 'test':
-        sendTextMessage(senderID, "TEST");
-        callParseServerCloudCode("testMsg",'{"msg":"fuck"}')
+        callParseServerCloudCode("testMsg",'{"msg":"fuck"}',function(response){
+          sendTextMessage(senderID, response);
+        });
         break
 
       default:
@@ -726,7 +727,7 @@ function sendTypingOff(recipientId) {
  * Turn typing indicator off
  *
  */
-function callParseServerCloudCode(methodName,requestMsg) {
+function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
   console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
   var options = {
   url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
@@ -746,7 +747,8 @@ function callback(error, response, body) {
   console.log("response:"+JSON.stringify(response));
   if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
-    console.log(info);
+    responseMsg(info.result);
+    console.log(info.result);
   }else {
     console.error("Unable to send message. Error :"+error);
   }
