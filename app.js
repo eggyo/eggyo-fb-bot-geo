@@ -745,7 +745,7 @@ function callParseServerCloudCode(methodName,requestMsg) {
     console.log("statusCode: ", res.statusCode);
     // uncomment it for header details
     console.log("headers: ", res.headers);
-    console.log("headers: ", res.headers);
+    console.log("jsonObject: ", jsonObject);
 
     res.on('data', function(d) {
         console.log('POST result:\n');
