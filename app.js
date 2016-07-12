@@ -819,7 +819,7 @@ function processMessage(reqMsg,resMsg){
       // get reply from parse server
     }
   } else {
-    if msg.substring(0,5) == "#help" {
+    if (msg.substring(0,5) == "#help") {
 
     } else {
       // get reply from parse server
@@ -834,7 +834,7 @@ function trainingCommand(msg,res) {
 
 }
 function isBotCommand(msg,res) {
-  if msg.length > 6 && msg.substring(0,4) == "#bot" {
+  if (msg.length > 6) && (msg.substring(0,4) == "#bot") {
 		res(true);
 	} else {
     res(false);
