@@ -280,14 +280,21 @@ function receivedMessage(event) {
         break
 
       default:
-        callParseServerCloudCode("getReplyMsg",'{"msg":"'+messageText+'"}',function(response){
-          if (response == "") {
-            console.log("no msg reply");
-            sendTextMessage(senderID, "ข้าไม่เข้าใจที่เจ้าพูด");
-          }else {
-            sendTextMessage(senderID, response);
-          }
-        });
+      processMessage(messageText,function(responseMsg){
+        if(responseMsg == messageText){
+          callParseServerCloudCode("getReplyMsg",'{"msg":"'+messageText+'"}',function(response){
+            if (response == "") {
+              console.log("no msg reply");
+              sendTextMessage(senderID, "ข้าไม่เข้าใจที่เจ้าพูด");
+            }else {
+              sendTextMessage(senderID, response);
+            }
+          });
+        }else {
+          sendTextMessage(senderID, responseMsg);
+        }
+      });
+
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -758,30 +765,6 @@ function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
   }
   request(options, callback);
 }
-function getParseServerObj(className,requestMsg,responseMsg) {
-  console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
-  var options = {
-  url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Parse-Application-Id' : 'myAppId',
-    'X-Parse-REST-API-Key': 'myRestKey'
-  },
-  body: requestMsg
-  };
-  function callback(error, response, body) {
-    console.log("response:"+JSON.stringify(response));
-    if (!error && response.statusCode == 200) {
-    var info = JSON.parse(body);
-    responseMsg(info.result);
-    console.log(info.result);
-    }else {
-    console.error("Unable to send message. Error :"+error);
-    }
-  }
-  request(options, callback);
-}
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
@@ -819,20 +802,23 @@ function processMessage(reqMsg,resMsg){
     switch (checkMsg) {
       case '#ask':
       // trainingCommand
+      resMsg("ข้าจำได้แล้ว ลองทักข้าใหม่ซิ อิอิ");
         break;
       case '#bot':
         // botCommand
+        resMsg("bot command");
+
         break;
 
       default:
-      // get reply from parse server
+      resMsg(reqMsg);
     }
   } else {
     if (msg.substring(0,5) == "#help") {
-
+      resMsg("มีอะไรให้ข้าช่วยมั้ย?");
     } else {
-      // get reply from parse server
-
+      // return original msg
+      resMsg(reqMsg);
     }
   }
 }
