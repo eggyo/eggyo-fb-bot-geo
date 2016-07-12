@@ -802,7 +802,13 @@ function processMessage(reqMsg,resMsg){
     switch (checkMsg) {
       case '#ask':
       // trainingCommand
-      resMsg("ข้าจำได้แล้ว ลองทักข้าใหม่ซิ อิอิ");
+      trainingCommand(reqMsg,function(res){
+        if (res != null) {
+          resMsg("ข้าจำได้แล้ว ลองทักข้าใหม่ซิ อิอิ");
+        }else {
+          resMsg("ข้าว่ามีบางอย่างผิดพลาด ลองใหม่ซิ");
+        }
+      });
         break;
       case '#bot':
         // botCommand
@@ -826,7 +832,11 @@ function trainingCommand(msg,res) {
   msg = msg.replace("#ask ","");
   msg = msg.replace(" #ans ",":");
   var msgs = msg.split(":");
-
+  var data = JSON.stringify('{"msg":"'+msgs[0]+'","replyMsg":"'+msgs[1]+'"}');
+  callParseServerCloudCode("botTraining",data,function(response){
+    console.log(response);
+    res(response);
+  });
 }
 function isBotCommand(msg,res) {
   if (msg.length > 6){
