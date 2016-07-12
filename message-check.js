@@ -1,6 +1,8 @@
 module.exports = {
-  processMsg: function (req,res) {
+  processMsg: function () {
     // whatever
+
+
   },
   bar: function () {
     // whatever

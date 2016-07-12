@@ -280,7 +280,14 @@ function receivedMessage(event) {
         break
 
       default:
-        sendTextMessage(senderID, messageText);
+        callParseServerCloudCode("getReplyMsg",'{"msg":"'+messageText+'"}',function(response){
+          if (response == "") {
+            console.log("no msg reply");
+          }else {
+            sendTextMessage(senderID, response);
+          }
+        });
+          break;
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -724,7 +731,7 @@ function sendTypingOff(recipientId) {
   callSendAPI(messageData);
 }
 /*
- * Turn typing indicator off
+ * cloud code from parse server
  *
  */
 function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
@@ -734,11 +741,20 @@ function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    //'Accept' : '*/*',
-    //'Accept-Encoding' : 'gzip, deflate',
     'X-Parse-Application-Id' : 'myAppId',
     'X-Parse-REST-API-Key': 'myRestKey'
-//    'Accept-Language' : 'en-us'
+  },
+  body: requestMsg
+};
+function getParseServerObj(className,requestMsg,responseMsg) {
+  console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
+  var options = {
+  url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Parse-Application-Id' : 'myAppId',
+    'X-Parse-REST-API-Key': 'myRestKey'
   },
   body: requestMsg
 };
@@ -789,6 +805,43 @@ function callSendAPI(messageData) {
     }
   });
 }
+function processMessage(reqMsg,resMsg){
+  if reqMsg.length > 6{
+    var checkMsg = reqMsg.substring(0,4);
+    switch (checkMsg) {
+      case '#ask':
+      // trainingCommand
+        break;
+      case '#bot':
+        // botCommand
+        break;
+
+      default:
+      // get reply from parse server
+    }
+  } else {
+    if msg.substring(0,5) == "#help" {
+
+    } else {
+      // get reply from parse server
+
+    }
+  }
+}
+function trainingCommand(msg,res) {
+  msg = msg.replace("#ask ","");
+  msg = msg.replace(" #ans ",":");
+  var msgs = msg.split(":");
+
+}
+function isBotCommand(msg,res) {
+  if msg.length > 6 && msg.substring(0,4) == "#bot" {
+		res(true);
+	} else {
+    res(false);
+	}
+}
+
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
