@@ -287,7 +287,6 @@ function receivedMessage(event) {
             sendTextMessage(senderID, response);
           }
         });
-          break;
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
