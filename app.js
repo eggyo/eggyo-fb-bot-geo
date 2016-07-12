@@ -744,7 +744,19 @@ function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
     'X-Parse-REST-API-Key': 'myRestKey'
   },
   body: requestMsg
-};
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    var info = JSON.parse(body);
+    responseMsg(info.result);
+    console.log(info.result);
+    }else {
+    console.error("Unable to send message. Error :"+error);
+    }
+  }
+  request(options, callback);
+}
 function getParseServerObj(className,requestMsg,responseMsg) {
   console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
   var options = {
@@ -756,21 +768,18 @@ function getParseServerObj(className,requestMsg,responseMsg) {
     'X-Parse-REST-API-Key': 'myRestKey'
   },
   body: requestMsg
-};
-
-function callback(error, response, body) {
-  console.log("response:"+JSON.stringify(response));
-  if (!error && response.statusCode == 200) {
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
     responseMsg(info.result);
     console.log(info.result);
-  }else {
+    }else {
     console.error("Unable to send message. Error :"+error);
+    }
   }
-}
-
-request(options, callback);
-
+  request(options, callback);
 }
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
