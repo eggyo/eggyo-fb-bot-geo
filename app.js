@@ -814,7 +814,7 @@ function processMessage(reqMsg,resMsg){
       resMsg(reqMsg);
     }
   } else {
-    if (msg.substring(0,5) == "#help") {
+    if (reqMsg.substring(0,5) == "#help") {
       resMsg("มีอะไรให้ข้าช่วยมั้ย?");
     } else {
       // return original msg
