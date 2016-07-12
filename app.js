@@ -283,6 +283,7 @@ function receivedMessage(event) {
         callParseServerCloudCode("getReplyMsg",'{"msg":"'+messageText+'"}',function(response){
           if (response == "") {
             console.log("no msg reply");
+            sendTextMessage(senderID, "ข้าไม่เข้าใจที่เจ้าพูด");
           }else {
             sendTextMessage(senderID, response);
           }
@@ -749,8 +750,8 @@ function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
     console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
-    responseMsg(info.result);
-    console.log(info.result);
+    responseMsg(info.result.replmsg);
+    console.log("result.msg"+info.result.msg+"result.replmsg"+info.result.replmsg);
     }else {
     console.error("Unable to send message. Error :"+error);
     }
