@@ -803,10 +803,12 @@ function processMessage(reqMsg,resMsg){
       case '#ask':
       // trainingCommand
       trainingCommand(reqMsg,function(res){
-        if (res != null) {
-          resMsg("ข้าจำได้แล้ว ลองทักข้าใหม่ซิ อิอิ");
-        }else {
+        if (!res) {
           resMsg("ข้าว่ามีบางอย่างผิดพลาด ลองใหม่ซิ");
+          //failed
+        }else {
+          resMsg("ข้าจำได้แล้ว ลองทักข้าใหม่ซิ อิอิ");
+          //success
         }
       });
         break;
