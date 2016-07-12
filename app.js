@@ -805,7 +805,7 @@ function callSendAPI(messageData) {
   });
 }
 function processMessage(reqMsg,resMsg){
-  if reqMsg.length > 6{
+  if reqMsg.length() > 6 {
     var checkMsg = reqMsg.substring(0,4);
     switch (checkMsg) {
       case '#ask':
@@ -834,7 +834,7 @@ function trainingCommand(msg,res) {
 
 }
 function isBotCommand(msg,res) {
-  if msg.length > 6 && msg.substring(0,4) == "#bot" {
+  if msg.length() > 6 && msg.substring(0,4) == "#bot" {
 		res(true);
 	} else {
     res(false);
