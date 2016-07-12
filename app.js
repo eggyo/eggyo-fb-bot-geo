@@ -834,8 +834,12 @@ function trainingCommand(msg,res) {
 
 }
 function isBotCommand(msg,res) {
-  if (msg.length > 6) && (msg.substring(0,4) == "#bot") {
-		res(true);
+  if (msg.length > 6){
+    if (msg.substring(0,4) == "#bot") {
+  		res(true);
+  	} else {
+      res(false);
+  	}
 	} else {
     res(false);
 	}
