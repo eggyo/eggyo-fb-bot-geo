@@ -750,8 +750,8 @@ function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
     console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
-    responseMsg(info.result.replMsg);
-    console.log("result.msg: "+info.result.msg+" result.replMsg: "+info.result.replMsg);
+    responseMsg(info.result.replyMsg);
+    console.log("result.msg: "+info.result.msg+" result.replyMsg: "+info.result.replyMsg);
     }else {
     console.error("Unable to send message. Error :"+error);
     }
