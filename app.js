@@ -832,7 +832,7 @@ function trainingCommand(msg,res) {
   msg = msg.replace("#ask ","");
   msg = msg.replace(" #ans ",":");
   var msgs = msg.split(":");
-  var data = JSON.stringify('{"msg":"'+msgs[0]+'","replyMsg":"'+msgs[1]+'"}');
+  var data = '{"msg":"'+msgs[0]+'","replyMsg":"'+msgs[1]+'"}';
   callParseServerCloudCode("botTraining",data,function(response){
     console.log(response);
     res(response);
