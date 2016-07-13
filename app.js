@@ -278,10 +278,15 @@ function receivedMessage(event) {
           sendTextMessage(senderID, response);
         });
         break
+        
       case '#help':
         sendHelpTips(senderID);
         break
-
+        
+      case '#menu':
+        sendMenu(senderID);
+        break
+        
       default:
       processMessage(messageText,function(responseMsg){
         if(responseMsg == messageText){
@@ -816,9 +821,9 @@ function sendHelpTips(recipientId) {
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
         },
         {
-          "content_type":"postback",
+          "content_type":"text",
           "title":"ส่งข้อความ",
-          "payload":"888"
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
         
         }
       ]
@@ -827,8 +832,37 @@ function sendHelpTips(recipientId) {
 
   callSendAPI(messageData);
 }
+function sendMenu(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Menu",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.oculus.com/en-us/rift/",
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
+            type: "phone_number",
+            title: "Call Phone Number",
+            payload: "+16505551234"
+          }]
+        }
+      }
+    }
+  };
 
-
+  callSendAPI(messageData);
+}
 
 function processMessage(reqMsg,resMsg){
   if (reqMsg.length > 6) {
