@@ -278,6 +278,9 @@ function receivedMessage(event) {
           sendTextMessage(senderID, response);
         });
         break
+      case '#help':
+        sendHelpTips(senderID);
+        break
 
       default:
       processMessage(messageText,function(responseMsg){
@@ -868,12 +871,8 @@ function processMessage(reqMsg,resMsg){
       resMsg(reqMsg);
     }
   } else {
-    if (reqMsg.substring(0,5) == "#help") {
-      resMsg("มีอะไรให้ข้าช่วยมั้ย?");
-    } else {
       // return original msg
       resMsg(reqMsg);
-    }
   }
 }
 function trainingCommand(msg,res) {
