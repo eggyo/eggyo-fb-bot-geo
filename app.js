@@ -738,34 +738,6 @@ function sendTypingOff(recipientId) {
   callSendAPI(messageData);
 }
 /*
- * cloud code from parse server
- *
- */
-function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
-  console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
-  var options = {
-  url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Parse-Application-Id' : 'myAppId',
-    'X-Parse-REST-API-Key': 'myRestKey'
-  },
-  body: requestMsg
-  };
-  function callback(error, response, body) {
-    console.log("response:"+JSON.stringify(response));
-    if (!error && response.statusCode == 200) {
-    var info = JSON.parse(body);
-    responseMsg(info.result.replyMsg);
-    console.log("result.msg: "+info.result.msg+" result.replyMsg: "+info.result.replyMsg);
-    }else {
-    console.error("Unable to send message. Error :"+error);
-    }
-  }
-  request(options, callback);
-}
-/*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
  *
@@ -796,6 +768,80 @@ function callSendAPI(messageData) {
     }
   });
 }
+
+
+/*
+ * cloud code from parse server
+ *
+ */
+function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
+  console.log("callParseServerCloudCode:"+methodName+"\nrequestMsg:"+requestMsg);
+  var options = {
+  url: 'https://reply-msg-parse-server.herokuapp.com/parse/functions/'+methodName,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Parse-Application-Id' : 'myAppId',
+    'X-Parse-REST-API-Key': 'myRestKey'
+  },
+  body: requestMsg
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    var info = JSON.parse(body);
+    responseMsg(info.result.replyMsg);
+    console.log("result.msg: "+info.result.msg+" result.replyMsg: "+info.result.replyMsg);
+    }else {
+    console.error("Unable to send message. Error :"+error);
+    }
+  }
+  request(options, callback);
+}
+function sendHelpTips(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "อยากรู้วิธีสั่งข้ารึ จะให้ข้าทำอะไร?",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"สอนข้า",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+        },
+        {
+          "content_type":"text",
+          "title":"ส่งข้อความ",
+          "payload":{
+          template_type: "button",
+          text: "This is test text",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.oculus.com/en-us/rift/",
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
+            type: "phone_number",
+            title: "Call Phone Number",
+            payload: "+16505551234"
+          }]
+        }
+        }
+      ]
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+
+
 function processMessage(reqMsg,resMsg){
   if (reqMsg.length > 6) {
     var checkMsg = reqMsg.substring(0,4);
