@@ -898,7 +898,8 @@ function trainingCommand(msg,res) {
   msg = msg.replace("#ask ","");
   msg = msg.replace(" #ans ",":");
   var msgs = msg.split(":");
-  var data = '{"msg":"'+msgs[0]+'","replyMsg":"'+msgs[1]+'"}';
+  var replyDatas = msgs[1].replace(",","','");
+  var data = '{"msg":"'+msgs[0]+'","replyMsg":"['+replyDatas+']"}';
   callParseServerCloudCode("botTraining",data,function(response){
     console.log(response);
     res(response);
