@@ -900,6 +900,8 @@ function trainingCommand(msg,res) {
   var msgs = msg.split(":");
   var replyDatas = msgs[1].split(",");
    console.log(replyDatas);
+   replyDatas = JSON.stringify(replyDatas);
+   console.log(replyDatas);
   var data = '{"msg":"'+msgs[0]+'","replyMsg":'+replyDatas+'}';
   callParseServerCloudCode("botTraining",data,function(response){
     console.log(response);
