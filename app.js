@@ -274,7 +274,7 @@ function receivedMessage(event) {
         break
 
       case 'test':
-          sendTextMessageWithMetadata(senderID, "accepted",{value:"eggyo"});
+          sendTextMessageWithMetadata(senderID, "accepted",'{value:"eggyo"}');
         break
 
       case '#help':
