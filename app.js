@@ -204,7 +204,7 @@ function receivedMessage(event) {
   var messageText = message.text;
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
-  console.log("messageAttachments:"+JSON.stringify(messageAttachments)+"messageAttachments type:"+JSON.stringify(messageAttachments.type));
+  console.log("messageAttachments:"+JSON.stringify(messageAttachments)+"messageAttachments type:"+JSON.stringify(messageAttachments[0].type));
 
   if (isEcho) {
     // Just logging message echoes to console
