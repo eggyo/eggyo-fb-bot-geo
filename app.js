@@ -305,18 +305,17 @@ function receivedMessage(event) {
 
     }
   } else if (messageAttachments) {
-    console.log("messageAttachments:"+JSON.stringify(messageAttachments[0]));
     messageAttachments.forEach(function(attachment) {
       var attachmentType = attachment.type;
       console.log("Attachment type:"+attachmentType);
-    });
-    if (messageAttachments.type == 'location') {
-      sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
-      sendTextMessage(senderID, "long:"+messageAttachments.payload.coordinates.long);
+      if (attachmentType == 'location') {
+        sendTextMessage(senderID, "lat:"+attachment.payload.coordinates.lat);
+        sendTextMessage(senderID, "long:"+attachment.payload.coordinates.long);
 
-    }else {
-      sendTextMessage(senderID, "Message with attachment received ,type:"+messageAttachments.type);
-    }
+      }else {
+        sendTextMessage(senderID, "Message with attachment received ,type:"+attachment.type);
+      }
+    });
   }
 }
 
