@@ -307,7 +307,7 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
     console.log("messageAttachments:"+JSON.stringify(messageAttachments[0]));
     messageAttachments.forEach(function(attachment) {
-      var attachmentType = messageAttachment.payload.type;
+      var attachmentType = attachment.type;
       console.log("Attachment type:"+attachmentType);
     });
     if (messageAttachments.type == 'location') {
