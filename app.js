@@ -305,9 +305,12 @@ function receivedMessage(event) {
 
     }
   } else if (messageAttachments) {
+    console.log("messageAttachments:"+JSON.stringify(messageAttachments[0]));
+    messageAttachments.forEach(function(attachment) {
+      var attachmentType = messageAttachment.payload.type;
+      console.log("Attachment type:"+attachmentType);
+    }
     if (messageAttachments.type == 'location') {
-      console.log("messageAttachments:"+JSON.stringify(messageAttachments[0]));
-
       sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
       sendTextMessage(senderID, "long:"+messageAttachments.payload.coordinates.long);
 
