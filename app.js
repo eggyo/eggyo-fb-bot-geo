@@ -309,7 +309,7 @@ function receivedMessage(event) {
     messageAttachments.forEach(function(attachment) {
       var attachmentType = messageAttachment.payload.type;
       console.log("Attachment type:"+attachmentType);
-    }
+    });
     if (messageAttachments.type == 'location') {
       sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
       sendTextMessage(senderID, "long:"+messageAttachments.payload.coordinates.long);
