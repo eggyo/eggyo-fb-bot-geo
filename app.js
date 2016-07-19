@@ -204,7 +204,6 @@ function receivedMessage(event) {
   var messageText = message.text;
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
-  console.log("messageAttachments:"+JSON.stringify(messageAttachments[0]));
 
   if (isEcho) {
     // Just logging message echoes to console
@@ -307,6 +306,8 @@ function receivedMessage(event) {
     }
   } else if (messageAttachments) {
     if (messageAttachments.type == 'location') {
+      console.log("messageAttachments:"+JSON.stringify(messageAttachments[0]));
+
       sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
       sendTextMessage(senderID, "long:"+messageAttachments.payload.coordinates.long);
 
