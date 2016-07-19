@@ -305,7 +305,8 @@ function receivedMessage(event) {
 
     }
   } else if (messageAttachments) {
-    console.log("messageAttachments:"+messageAttachments);
+    console.log("messageAttachments:"+JSON.stringify(messageAttachments));
+    console.log("messageAttachments type:"+JSON.stringify(messageAttachments.type));
 
     if (messageAttachments.type == 'location') {
       sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
