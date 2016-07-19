@@ -305,12 +305,12 @@ function receivedMessage(event) {
 
     }
   } else if (messageAttachments) {
-    if (messageAttachments.type == "location") {
+    if (messageAttachments.type == 'location') {
       sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
       sendTextMessage(senderID, "long:"+messageAttachments.payload.coordinates.long);
 
     }else {
-      sendTextMessage(senderID, "Message with attachment received");
+      sendTextMessage(senderID, "Message with attachment received ,type:"+messageAttachments.type);
     }
   }
 }
