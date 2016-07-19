@@ -215,7 +215,7 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    sendTextMessage(senderID, "Quick reply tapped:"+quickReplyPayload);
     return;
   }
 
@@ -278,15 +278,15 @@ function receivedMessage(event) {
           sendTextMessage(senderID, response);
         });
         break
-        
+
       case '#help':
         sendHelpTips(senderID);
         break
-        
+
       case '#menu':
         sendMenu(senderID);
         break
-        
+
       default:
       processMessage(messageText,function(responseMsg){
         if(responseMsg == messageText){
@@ -305,7 +305,13 @@ function receivedMessage(event) {
 
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    if (messageAttachments.type == "location") {
+      sendTextMessage(senderID, "lat:"+messageAttachments.payload.coordinates.lat);
+      sendTextMessage(senderID, "long:"+messageAttachments.payload.coordinates.long);
+
+    }else {
+      sendTextMessage(senderID, "Message with attachment received");
+    }
   }
 }
 
@@ -824,7 +830,7 @@ function sendHelpTips(recipientId) {
           "content_type":"text",
           "title":"ส่งข้อความ",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
-        
+
         }
       ]
     }
@@ -899,9 +905,7 @@ function trainingCommand(msg,res) {
   msg = msg.replace(" #ans ",":");
   var msgs = msg.split(":");
   var replyDatas = msgs[1].split(",");
-   console.log(replyDatas);
-   replyDatas = JSON.stringify(replyDatas);
-   console.log(replyDatas);
+  replyDatas = JSON.stringify(replyDatas);
   var data = '{"msg":"'+msgs[0]+'","replyMsg":'+replyDatas+'}';
   callParseServerCloudCode("botTraining",data,function(response){
     console.log(response);
