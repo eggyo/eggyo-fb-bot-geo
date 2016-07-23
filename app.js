@@ -274,9 +274,7 @@ function receivedMessage(event) {
         break
 
       case 'test':
-        callParseServerCloudCode("testMsg",'{"msg":"fuck"}',function(response){
-          sendTextMessage(senderID, response);
-        });
+          sendTextMessageWithMetadata(senderID, "accepted",'{value:"eggyo"}');
         break
 
       case '#help':
@@ -764,6 +762,20 @@ function sendTypingOff(recipientId) {
 
   callSendAPI(messageData);
 }
+function sendTextMessageWithMetadata(recipientId, messageText,metaData) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText,
+      metadata: metaData
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
