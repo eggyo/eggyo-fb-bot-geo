@@ -976,7 +976,7 @@ function trainingCommand(msg,res) {
   var replyDatas = msgs[1].split(",");
   msgDatas = JSON.stringify(msgDatas);
   replyDatas = JSON.stringify(replyDatas);
-  var data = '{"msg":"'+msgDatas+'","replyMsg":'+replyDatas+'}';
+  var data = '{"msg":'+msgDatas+',"replyMsg":'+replyDatas+'}';
   callParseServerCloudCode("botTraining",data,function(response){
     console.log(response);
     res(response);
