@@ -307,8 +307,6 @@ function receivedMessage(event) {
       var attachmentType = attachment.type;
       console.log("Attachment type:"+attachmentType);
       if (attachmentType == 'location') {
-        sendTextMessage(senderID, "lat:"+attachment.payload.coordinates.lat);
-        sendTextMessage(senderID, "long:"+attachment.payload.coordinates.long);
         getGeoConvert(attachment.payload.coordinates.lat,attachment.payload.coordinates.long,function(response){
           if (response == "") {
             console.log("no msg reply");
@@ -317,6 +315,14 @@ function receivedMessage(event) {
             sendTextMessage(senderID, "latLong: "+response.latLon);
             sendTextMessage(senderID, "utm: "+response.utm);
             sendTextMessage(senderID, "mgrs: "+response.mgrs);
+          }
+        });
+        getGoogleElev(attachment.payload.coordinates.lat,attachment.payload.coordinates.long,function(response){
+          if (response == "") {
+            console.log("no msg reply");
+            sendTextMessage(senderID, "ข้าว่าระบบน่าจะมีปัญหานะ T_T");
+          }else {
+            sendTextMessage(senderID, "Altitude: "+response);
           }
         });
       }else {
@@ -828,7 +834,23 @@ function getGeoConvert(lat,long,responseMsg) {
   }
   request(options, callback);
 }
-
+function getGoogleElev(lat,long,responseMsg) {
+  var options = {
+  url: 'https://maps.googleapis.com/maps/api/elevation/json?locations='+lat+','+long+ '&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg'
+  method: 'GET'
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    var info = JSON.parse(body);
+    responseMsg(info.results[0].elevation);
+    console.log("result elev: "+info.results[0]);
+    }else {
+    console.error("Unable to send message. Error :"+error);
+    }
+  }
+  request(options, callback);
+}
 /*
  * cloud code from parse server
  *
