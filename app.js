@@ -311,7 +311,16 @@ function receivedMessage(event) {
       if (attachmentType == 'location') {
         sendTextMessage(senderID, "lat:"+attachment.payload.coordinates.lat);
         sendTextMessage(senderID, "long:"+attachment.payload.coordinates.long);
-
+        getGeoConvert(attachment.payload.coordinates.lat,attachment.payload.coordinates.long,function(response){
+          if (response == "") {
+            console.log("no msg reply");
+            sendTextMessage(senderID, "ข้าว่าระบบน่าจะมีปัญหานะ T_T");
+          }else {
+            sendTextMessage(senderID, "latLong: "+response.latLon);
+            sendTextMessage(senderID, "utm: "+response.utm);
+            sendTextMessage(senderID, "mgrs: "+response.mgrs);
+          }
+        });
       }else {
         sendTextMessage(senderID, "Message with attachment received ,type:"+attachment.type);
       }
@@ -786,7 +795,27 @@ function callSendAPI(messageData) {
     }
   });
 }
-
+/*
+ * geo convert from eggyo-node
+ *
+ */
+function getGeoConvert(lat,long,responseMsg) {
+  var options = {
+  url: 'https://eggyo-geo-node.herokuapp.com/geo/'+lat+','+long,
+  method: 'GET'
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    var info = JSON.parse(body);
+    responseMsg(info.result);
+    console.log("result.latLon: "+info.result.latLon+" result.utm: "+info.result.utm+" result.mgrs: "+info.result.mgrs);
+    }else {
+    console.error("Unable to send message. Error :"+error);
+    }
+  }
+  request(options, callback);
+}
 
 /*
  * cloud code from parse server
@@ -816,6 +845,7 @@ function callParseServerCloudCode(methodName,requestMsg,responseMsg) {
   }
   request(options, callback);
 }
+
 function sendHelpTips(recipientId) {
   var messageData = {
     recipient: {
