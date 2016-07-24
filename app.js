@@ -867,7 +867,9 @@ function addNewUserToDatabase(req,responseMsg) {
   headers: {
     'Content-Type': 'application/json'
   },
-  body: req
+  body: {
+    'fbUser':req
+  }
   };
   function callback(error, response, body) {
     console.log("response:"+JSON.stringify(response));
