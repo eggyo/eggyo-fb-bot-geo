@@ -849,8 +849,7 @@ function userCheck(senderID) {
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
           console.log("new user :"+senderID+" userFB:"+JSON.stringify(responseUser));
-          var req = '{"fbID":"'+senderID+'","fbUser":"'+JSON.stringify(responseUser)+'"}';
-          addNewUserToDatabase(req,function(responseNewUser){
+          addNewUserToDatabase(JSON.parse(responseUser),function(responseNewUser){
 
           });
         });
