@@ -194,7 +194,7 @@ function receivedMessage(event) {
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
-  userCheck(senderID);
+
   var isEcho = message.is_echo;
   var messageId = message.mid;
   var appId = message.app_id;
@@ -378,13 +378,18 @@ function receivedPostback(event) {
   // The 'payload' param is a developer-defined field which is set in a postback
   // button for Structured Messages.
   var payload = event.postback.payload;
+  if (payload == "GET_START_BUTTON_PAYLOAD") {
+    userCheck(senderID);
+    sendTextMessage(senderID, "สวัสดี มีอะไรให้ข้ารับใช้");
+  }else {
+    sendTextMessage(senderID, "Postback called");
+  }
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
 }
 
 /*
