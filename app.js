@@ -849,7 +849,7 @@ function userCheck(senderID) {
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
           console.log("new user :"+senderID+" userFB:"+JSON.stringify(responseUser));
-          addNewUserToDatabase(senderID.toString(),JSON.stringify(responseUser),function(responseNewUser){
+          addNewUserToDatabase(JSON.stringify(senderID),JSON.stringify(responseUser),function(responseNewUser){
 
           });
         });
@@ -860,7 +860,7 @@ function userCheck(senderID) {
   }
   request(options, callback);
 }
-function addNewUserToDatabase(req,responseMsg) {
+function addNewUserToDatabase(senderID,fbUser,responseMsg) {
   var options = {
   url: 'https://api.mlab.com/api/1/databases/heroku_kdsv0jrn/collections/User?apiKey=tCNaPGliwX5BYPoVlk9EkfXE0MjO9eWF',
   method: 'POST',
