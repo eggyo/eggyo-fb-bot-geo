@@ -828,7 +828,7 @@ function callUserProfileAPI(fbID,responseUser) {
         var name = info.first_name +" "+info.last_name;
         responseUser(name);
       }else {
-        var name = info.name ;
+        var name = info.name;
         responseUser(name);
       }
 
@@ -856,7 +856,8 @@ function userCheck(senderID) {
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
           console.log("new user :"+senderID+" userFB:"+responseUser);
-          addNewUserToDatabase(senderID,responseUser,function(responseNewUser){
+          var req = '{"fbID":"'+senderID+'","fbUser":"'+responseUser+'"}';
+          addNewUserToDatabase(req,function(responseNewUser){
 
           });
         });
@@ -867,17 +868,14 @@ function userCheck(senderID) {
   }
   request(options, callback);
 }
-function addNewUserToDatabase(senderID,name,responseMsg) {
+function addNewUserToDatabase(req,responseMsg) {
   var options = {
   url: 'https://api.mlab.com/api/1/databases/heroku_kdsv0jrn/collections/User?apiKey=tCNaPGliwX5BYPoVlk9EkfXE0MjO9eWF',
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
-  body: {
-    'fbID':senderID,
-    'fbName':name
-  }
+  body: req
   };
   function callback(error, response, body) {
     console.log("response:"+JSON.stringify(response));
