@@ -823,7 +823,8 @@ function callUserProfileAPI(fbID,responseUser) {
   function callback(error, response, body) {
     console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
-    responseUser(body);
+      var info = JSON.parse(body);
+      responseUser(info);
     }else {
     console.error("Unable to callUserProfileAPI. Error :"+error);
     }
@@ -847,9 +848,9 @@ function userCheck(senderID) {
         //call user profile
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
-          addNewUserToDatabase(senderID,responseUser,function(response){
+          addNewUserToDatabase(senderID,responseUser,function(response2){
             // add new fbID to mLab
-            console.lag("add new user :"+response);
+            console.lag("add new user :"+response2);
           });
         });
       }
@@ -874,7 +875,8 @@ function addNewUserToDatabase(senderID,fbUser,responseMsg) {
   function callback(error, response, body) {
     console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
-    responseMsg(body);
+      var info = JSON.parse(body);
+      responseMsg(info);
     }else {
     console.error("Unable to checking user id. Error :"+error);
     }
