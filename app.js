@@ -848,7 +848,7 @@ function userCheck(senderID) {
         //call user profile
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
-          console.lag("new user :"+senderID+" userFB:"+responseUser);
+          console.log("new user :"+senderID+" userFB:"+responseUser);
 
         });
       }
