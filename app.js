@@ -823,7 +823,7 @@ function callUserProfileAPI(fbID,responseUser) {
   function callback(error, response, body) {
     console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
-      var info = JSON.stringify(body);
+      var info = JSON.parse(body);
       responseUser(info);
     }else {
     console.error("Unable to callUserProfileAPI. Error :"+error);
@@ -848,7 +848,7 @@ function userCheck(senderID) {
         //call user profile
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
-          console.log("new user :"+senderID+" userFB:"+responseUser);
+          console.log("new user :"+senderID+" userFB:"+JSON.stringify(responseUser));
           addNewUserToDatabase(senderID,responseUser,function(responseNewUser){
 
           });
