@@ -849,7 +849,7 @@ function userCheck(senderID) {
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
           console.log("new user :"+senderID+" userFB:"+JSON.stringify(responseUser));
-          addNewUserToDatabase('{"fbID":'+senderID+',"fbUser":'+responseUser+'}',function(responseNewUser){
+          addNewUserToDatabase(JSON.stringify(senderID),JSON.stringify(responseUser),function(responseNewUser){
 
           });
         });
@@ -867,7 +867,10 @@ function addNewUserToDatabase(req,responseMsg) {
   headers: {
     'Content-Type': 'application/json'
   },
-  body: req
+  body: {
+    'fbID':senderID,
+    'fbUser':fbUser
+  }
   };
   function callback(error, response, body) {
     console.log("response:"+JSON.stringify(response));
