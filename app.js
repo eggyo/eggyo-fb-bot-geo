@@ -824,8 +824,11 @@ function callUserProfileAPI(fbID,responseUser) {
     console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body);
-      var name = info.first_name +" "+info.last_name;
-      responseUser(name);
+      if (info.first_name != "") {
+        var name = info.first_name +" "+info.last_name;
+        responseUser(name);
+      }
+
     }else {
     console.error("Unable to callUserProfileAPI. Error :"+error);
     }
