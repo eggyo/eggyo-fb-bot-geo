@@ -849,7 +849,7 @@ function userCheck(senderID) {
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
           console.log("new user :"+senderID+" userFB:"+JSON.stringify(responseUser));
-          addNewUserToDatabase(senderID,responseUser,function(responseNewUser){
+          addNewUserToDatabase(senderID,JSON.stringify(responseUser),function(responseNewUser){
 
           });
         });
@@ -878,7 +878,7 @@ function addNewUserToDatabase(senderID,fbUser,responseMsg) {
       var info = JSON.stringify(body);
       responseMsg(info);
     }else {
-    console.error("Unable to checking user id. Error :"+error);
+    console.error("Unable to addNewUserToDatabase. Error :"+error);
     }
   }
   request(options, callback);
