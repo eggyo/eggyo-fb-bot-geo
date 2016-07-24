@@ -194,7 +194,7 @@ function receivedMessage(event) {
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
-
+  userCheck(senderID);
   var isEcho = message.is_echo;
   var messageId = message.mid;
   var appId = message.app_id;
@@ -306,8 +306,10 @@ function receivedMessage(event) {
     messageAttachments.forEach(function(attachment) {
       var attachmentType = attachment.type;
       console.log("Attachment type:"+attachmentType);
+      var lat = attachment.payload.coordinates.lat;
+      var long = attachment.payload.coordinates.long;
       if (attachmentType == 'location') {
-        getGeoConvert(attachment.payload.coordinates.lat,attachment.payload.coordinates.long,function(response){
+        getGeoConvert(lat,long,function(response){
           if (response == "") {
             console.log("no msg reply");
             sendTextMessage(senderID, "ข้าว่าระบบน่าจะมีปัญหานะ T_T");
@@ -317,7 +319,7 @@ function receivedMessage(event) {
             sendTextMessage(senderID, "mgrs: "+response.mgrs);
           }
         });
-        getGoogleElev(attachment.payload.coordinates.lat,attachment.payload.coordinates.long,function(response){
+        getGoogleElev(lat,long,function(response){
           if (response == "") {
             console.log("no msg reply");
             sendTextMessage(senderID, "ข้าว่าระบบน่าจะมีปัญหานะ T_T");
@@ -812,6 +814,72 @@ function callSendAPI(messageData) {
       console.error("Unable to send message. Error %d: %s",error);
     }
   });
+}
+function callUserProfileAPI(fbID,responseUser) {
+  var options = {
+  url: 'https://graph.facebook.com/v2.6/'+fbID+'?access_token='+PAGE_ACCESS_TOKEN,
+  method: 'GET'
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    responseUser(body);
+    }else {
+    console.error("Unable to callUserProfileAPI. Error :"+error);
+    }
+  }
+  request(options, callback);
+}
+/*
+ * user process in mLab database
+ *
+ */
+function userCheck(senderID) {
+  var options = {
+  url: 'https://api.mlab.com/api/1/databases/heroku_kdsv0jrn/collections/User?q={"fbID":"'+senderID+'"}&apiKey=tCNaPGliwX5BYPoVlk9EkfXE0MjO9eWF',
+  method: 'GET'
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    var info = JSON.parse(body);
+      if (info.length == 0) {
+        //call user profile
+        callUserProfileAPI(senderID,function(responseUser){
+          // add new fbID to mLab
+          addNewUserToDatabase(senderID,responseUser,function(response){
+            // add new fbID to mLab
+            console.lag("add new user :"+response);
+          });
+        });
+      }
+    }else {
+    console.error("Unable to checking user id. Error :"+error);
+    }
+  }
+  request(options, callback);
+}
+function addNewUserToDatabase(senderID,fbUser,responseMsg) {
+  var options = {
+  url: 'https://api.mlab.com/api/1/databases/heroku_kdsv0jrn/collections/User?q={"fbID":"'+senderID+'"}&apiKey=tCNaPGliwX5BYPoVlk9EkfXE0MjO9eWF',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: {
+    'fbID':senderID,
+    'fbUser':fbUser
+  }
+  };
+  function callback(error, response, body) {
+    console.log("response:"+JSON.stringify(response));
+    if (!error && response.statusCode == 200) {
+    responseMsg(body);
+    }else {
+    console.error("Unable to checking user id. Error :"+error);
+    }
+  }
+  request(options, callback);
 }
 /*
  * geo convert from eggyo-node
