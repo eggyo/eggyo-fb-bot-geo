@@ -289,6 +289,7 @@ function receivedMessage(event) {
       processMessage(messageText,function(responseMsg){
         if(responseMsg == messageText){
           callParseServerCloudCode("getReplyMsg",'{"msg":"'+messageText+'"}',function(response){
+            sendTypingOn(senderID);
             if (response == "") {
               console.log("no msg reply");
               sendTextMessage(senderID, "ข้าไม่เข้าใจที่เจ้าพูด");
@@ -307,6 +308,7 @@ function receivedMessage(event) {
       var attachmentType = attachment.type;
       console.log("Attachment type:"+attachmentType);
       if (attachmentType == 'location') {
+        sendTypingOn(senderID);
         var lat = attachment.payload.coordinates.lat;
         var long = attachment.payload.coordinates.long;
         getGeoConvert(lat,long,function(response){
