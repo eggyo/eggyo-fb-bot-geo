@@ -827,6 +827,9 @@ function callUserProfileAPI(fbID,responseUser) {
       if (info.first_name != "") {
         var name = info.first_name +" "+info.last_name;
         responseUser(name);
+      }else {
+        var name = info.name ;
+        responseUser(name);
       }
 
     }else {
