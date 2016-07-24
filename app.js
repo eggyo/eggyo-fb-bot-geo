@@ -306,9 +306,9 @@ function receivedMessage(event) {
     messageAttachments.forEach(function(attachment) {
       var attachmentType = attachment.type;
       console.log("Attachment type:"+attachmentType);
-      var lat = attachment.payload.coordinates.lat;
-      var long = attachment.payload.coordinates.long;
       if (attachmentType == 'location') {
+        var lat = attachment.payload.coordinates.lat;
+        var long = attachment.payload.coordinates.long;
         getGeoConvert(lat,long,function(response){
           if (response == "") {
             console.log("no msg reply");
@@ -848,10 +848,8 @@ function userCheck(senderID) {
         //call user profile
         callUserProfileAPI(senderID,function(responseUser){
           // add new fbID to mLab
-          addNewUserToDatabase(senderID,responseUser,function(response2){
-            // add new fbID to mLab
-            console.lag("add new user :"+response2);
-          });
+          console.lag("new user :"+senderID+" userFB:"+responseUser);
+
         });
       }
     }else {
