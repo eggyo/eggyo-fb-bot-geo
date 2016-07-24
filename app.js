@@ -821,9 +821,10 @@ function callUserProfileAPI(fbID,responseUser) {
   method: 'GET'
   };
   function callback(error, response, body) {
-    console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body);
+      console.log("callUserProfileAPI:"+JSON.stringify(info));
+
       if (info.first_name != "") {
         var name = info.first_name +" "+info.last_name;
         responseUser(name);
@@ -848,7 +849,6 @@ function userCheck(senderID) {
   method: 'GET'
   };
   function callback(error, response, body) {
-    console.log("response:"+JSON.stringify(response));
     if (!error && response.statusCode == 200) {
     var info = JSON.parse(body);
       if (info.length == 0) {
