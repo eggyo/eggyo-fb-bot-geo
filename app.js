@@ -918,7 +918,7 @@ function getGeoConvert(lat,long,responseMsg) {
 }
 function getGoogleElev(lat,long,responseMsg) {
   var options = {
-  url: 'https://maps.googleapis.com/maps/api/elevation/json?locations='+lat+','+long+ '&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg',
+  url: 'https://maps.googleapis.com/maps/api/elevation/json?locations='+lat+','+long+ '&key=AIzaSyDiNtgqxj7iuldFVAPaoZIbUodon7wQRI8',
   method: 'GET'
   };
   function callback(error, response, body) {
